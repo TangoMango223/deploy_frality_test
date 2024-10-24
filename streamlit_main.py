@@ -43,10 +43,6 @@ from langchain_core.runnables import RunnablePassthrough
 # Combine or stuffing chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
-# Load environment variables
-from dotenv import load_dotenv
-load_dotenv()
-
 # Updated Color scheme for better visibility
 COLOR_SCHEME = {
     'background': '#FFFFFF',
@@ -158,16 +154,15 @@ def generate_frailty_care_plan(
     uses_mobility_aid: bool
 ):
     # Initialize OpenAI Embeddings
-    embeddings = OpenAIEmbeddings(openai_api_key=st.secrets["openai"]["api_key"])
+    embeddings = OpenAIEmbeddings(openai_api_key=st.secrets["OPENAI_API_KEY"])
 
     # Initialize Pinecone
-    pc = Pinecone(api_key=st.secrets["pinecone"]["api_key"])
+    pc = Pinecone(api_key=st.secrets["PINECONE_API_KEY"])
 
     # Connect to PineCone vector store
     vectorstore = PineconeVectorStore(
-        index_name=st.secrets["pinecone"]["index_name"],
+        index_name=st.secrets["INDEX_NAME"],
         embedding=embeddings,
-        client=pc
     )
 
     # Create the retriever
